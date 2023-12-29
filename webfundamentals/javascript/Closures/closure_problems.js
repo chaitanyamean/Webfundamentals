@@ -40,11 +40,64 @@ firstArray.push(firstCounter());
 firstArray.push(firstCounter());
 firstArray.push(firstCounter());
 firstArray.push(firstCounter());
-console.log(firstArray);
+// console.log(firstArray);
 
 let secondCounter = counter();
 let secondArray = [];
 secondArray.push(secondCounter());
 secondArray.push(secondCounter());
 secondArray.push(secondCounter());
-console.log(secondArray);
+// console.log(secondArray);
+
+// closure second prob
+function createAccount(code, amount) {
+  return {
+    checkBalance(pinCode) {
+      if (pinCode != code) return "Invalid PIN.";
+      if (pinCode == code) return amount;
+    },
+    deposit(pinCode, depositAmt) {
+      if (pinCode != code) return "Invalid PIN.";
+      if (pinCode == code) {
+        amount = amount + depositAmt;
+        return `Succesfully deposited ${depositAmt}. Current balance: ${amount}.`;
+      }
+    },
+    withdraw(pinCode, withDrawAmt) {
+      if (pinCode != code) return "Invalid PIN.";
+      if (withDrawAmt < amount) {
+        amount = amount - withDrawAmt;
+        return `Succesfully withdrew ${withDrawAmt}. Current balance: ${amount}.`;
+      }
+    },
+    changePincode(oldPin, newPin) {
+      if (oldPin != code) return "Invalid PIN.";
+      code = newPin;
+      return "PIN successfully changed!";
+    },
+  };
+}
+
+let account = createAccount("1234", 100);
+// console.log(account.checkBalance("1234"));
+// console.log(account.deposit("1234", 250));
+// console.log(account.checkBalance("1234"));
+// console.log(account.withdraw("1234", 250));
+// console.log(account.changePincode("1234", "09876"));
+// console.log(account.checkBalance("1234"));
+
+// account.deposit("1234", 200);
+// console.log("acc", account);
+
+// specialAdd
+
+function specialAdd(a) {
+  if (a == undefined) return 0;
+
+  return function addNext(b) {
+    if (b === undefined) return a;
+    a = a + b;
+    return addNext;
+  };
+}
+console.log(specialAdd(1)(2)(3)(4)(-10)(1)());
